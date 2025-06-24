@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { HiOutlineHome, HiOutlineShoppingCart, HiOutlineClipboardList } from 'react-icons/hi';
+import { HiOutlineHome, HiOutlineShoppingCart, HiOutlineClipboardList, HiOutlineViewGrid } from 'react-icons/hi';
 import { useContext } from 'react';
 import { CartContext } from '../Context/CartContext';
 
@@ -9,8 +9,12 @@ export default function Navbar() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-lg flex justify-around items-center h-16 px-2 md:hidden">
-      <NavLink to="/menu" className={({ isActive }) => `flex flex-col items-center text-xs ${isActive ? 'text-blue-600' : 'text-gray-500'}` }>
+      <NavLink to="/" className={({ isActive }) => `flex flex-col items-center text-xs ${isActive ? 'text-blue-600' : 'text-gray-500'}` }>
         <HiOutlineHome className="text-2xl mb-1" />
+        الرئيسية
+      </NavLink>
+      <NavLink to="/menu" className={({ isActive }) => `flex flex-col items-center text-xs ${isActive ? 'text-blue-600' : 'text-gray-500'}` }>
+        <HiOutlineViewGrid className="text-2xl mb-1" />
         القائمة
       </NavLink>
       <NavLink to="/cart" className={({ isActive }) => `flex flex-col items-center text-xs relative ${isActive ? 'text-blue-600' : 'text-gray-500'}` }>

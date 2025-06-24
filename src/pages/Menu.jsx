@@ -10,7 +10,9 @@ import {
   HiOutlineViewGrid,
   HiOutlineViewList,
   HiOutlineChevronDown,
-  HiOutlineChevronUp
+  HiOutlineChevronUp,
+  HiOutlineChevronLeft,
+  HiOutlineChevronRight
 } from 'react-icons/hi';
 
 export default function Menu() {
@@ -21,6 +23,8 @@ export default function Menu() {
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 6;
 
   // Filter and sort products
   const filteredAndSortedProducts = useMemo(() => {
@@ -65,8 +69,60 @@ export default function Menu() {
     return filtered;
   }, [selectedCategory, priceRange, sortBy, sortOrder, searchQuery]);
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredAndSortedProducts.length / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = filteredAndSortedProducts.slice(startIndex, endIndex);
+
+  // Reset to first page when filters change
+  const resetPagination = () => {
+    setCurrentPage(1);
+  };
+
+  // Update pagination when filters change
+  useMemo(() => {
+    resetPagination();
+  }, [selectedCategory, priceRange, sortBy, sortOrder, searchQuery]);
+
   const maxPrice = Math.max(...products.map(p => p.price));
   const minPrice = Math.min(...products.map(p => p.price));
+
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push('...');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -209,11 +265,21 @@ export default function Menu() {
           </div>
         )}
 
-        {/* Results Count */}
-        <div className="mb-4">
+        {/* Results Count and Pagination Info */}
+        <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <p className="text-gray-600">
             تم العثور على <span className="font-semibold text-blue-600">{filteredAndSortedProducts.length}</span> منتج
+            {totalPages > 1 && (
+              <span className="text-gray-500">
+                {' '}(الصفحة {currentPage} من {totalPages})
+              </span>
+            )}
           </p>
+          {totalPages > 1 && (
+            <p className="text-sm text-gray-500">
+              عرض {startIndex + 1}-{Math.min(endIndex, filteredAndSortedProducts.length)} من {filteredAndSortedProducts.length}
+            </p>
+          )}
         </div>
 
         {/* Products Grid - Always 2 columns on mobile, more on larger screens */}
@@ -222,7 +288,7 @@ export default function Menu() {
             ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' 
             : 'grid-cols-1'
         }`}>
-          {filteredAndSortedProducts.map((product) => (
+          {currentProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
@@ -233,6 +299,61 @@ export default function Menu() {
             <div className="text-gray-400 text-6xl mb-4">🔍</div>
             <h3 className="text-xl font-semibold text-gray-600 mb-2">لا توجد نتائج</h3>
             <p className="text-gray-500">جرب تغيير الفلاتر أو البحث عن شيء آخر</p>
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="mt-8 flex justify-center">
+            <div className="flex items-center gap-2 bg-white rounded-xl shadow-lg p-2">
+              {/* Previous Button */}
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className={`p-2 rounded-lg transition-all duration-200 flex items-center gap-1 ${
+                  currentPage === 1
+                    ? 'text-gray-400 cursor-not-allowed'
+                    : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                }`}
+              >
+                <HiOutlineChevronLeft className="text-lg" />
+                <span className="hidden sm:inline">السابق</span>
+              </button>
+
+              {/* Page Numbers */}
+              <div className="flex items-center gap-1">
+                {getPageNumbers().map((page, index) => (
+                  <button
+                    key={index}
+                    onClick={() => typeof page === 'number' && setCurrentPage(page)}
+                    disabled={page === '...'}
+                    className={`px-3 py-2 rounded-lg transition-all duration-200 ${
+                      page === currentPage
+                        ? 'bg-blue-600 text-white shadow-lg'
+                        : page === '...'
+                        ? 'text-gray-400 cursor-default'
+                        : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className={`p-2 rounded-lg transition-all duration-200 flex items-center gap-1 ${
+                  currentPage === totalPages
+                    ? 'text-gray-400 cursor-not-allowed'
+                    : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                }`}
+              >
+                <span className="hidden sm:inline">التالي</span>
+                <HiOutlineChevronRight className="text-lg" />
+              </button>
+            </div>
           </div>
         )}
       </div>
