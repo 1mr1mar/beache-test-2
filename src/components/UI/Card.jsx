@@ -1,6 +1,6 @@
 // src/components/ProductCard.jsx
 import { useContext } from 'react';
-import { CartContext } from '../../context/CartContext';
+import { CartContext } from '../../Context/CartContext';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 export default function ProductCard({ product }) {

@@ -1,6 +1,6 @@
 // src/pages/Cart.jsx
 import { useContext } from 'react';
-import { CartContext } from '../context/CartContext';
+import { CartContext } from '../Context/CartContext';
 import { HiOutlineTrash, HiOutlineCheckCircle } from 'react-icons/hi';
 
 export default function Cart() {
