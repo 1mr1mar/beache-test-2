@@ -151,7 +151,7 @@ export default function Menu() {
                   max={maxPrice}
                   value={priceRange[1]}
                   onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                  className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                  className="flex-1 h-2 rounded-lg appearance-none cursor-pointer"
                 />
                 <span className="text-sm font-medium text-gray-600 min-w-[80px]">
                   {priceRange[0]} - {priceRange[1]} DH
