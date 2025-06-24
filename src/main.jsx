@@ -1,16 +1,18 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { CartProvider } from './Context/CartContext';
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from './Context/ThemeContext.jsx'
 
-createRoot(document.getElementById('root')).render(
-
-  <StrictMode>
-    <CartProvider>
-      <App />
-      <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
-    </CartProvider>
-  </StrictMode>,
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <ThemeProvider>
+      <CartProvider>
+        <App />
+        <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
+      </CartProvider>
+    </ThemeProvider>
+  </React.StrictMode>,
 )

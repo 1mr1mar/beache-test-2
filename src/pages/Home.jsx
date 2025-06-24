@@ -12,6 +12,7 @@ import {
   HiOutlineArrowUp,
   HiOutlineSparkles
 } from 'react-icons/hi';
+import ThemeSwitcher from '../components/UI/ThemeSwitcher';
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
@@ -104,24 +105,27 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Floating Search Bar */}
-      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
-        <form onSubmit={handleSearch} className="relative">
-          <input
-            type="text"
-            placeholder="ابحث عن منتجاتك المفضلة..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-3 pr-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:bg-white"
-          />
-          <button
-            type="submit"
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-700 transition-colors"
-          >
-            <HiOutlineSearch className="text-xl" />
-          </button>
-        </form>
+    <div className="min-h-screen bg-[rgb(var(--color-background))]">
+      {/* Floating Search Bar and Theme Switcher */}
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-2xl px-4">
+        <div className="flex items-center gap-3">
+          <form onSubmit={handleSearch} className="relative flex-1">
+            <input
+              type="text"
+              placeholder="ابحث عن منتجاتك المفضلة..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-4 py-3 pr-12 rounded-full shadow-lg border focus-ring transition-all duration-300 bg-[rgb(var(--color-background-secondary))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))]"
+            />
+            <button
+              type="submit"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-700 transition-colors"
+            >
+              <HiOutlineSearch className="text-xl" />
+            </button>
+          </form>
+          <ThemeSwitcher />
+        </div>
       </div>
 
       {/* Hero Section with Slider */}
@@ -228,101 +232,101 @@ export default function Home() {
       </div>
 
       {/* Compact Features Section */}
-      <div className="py-8 md:py-16 bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="py-8 md:py-16 bg-[rgb(var(--color-background-secondary))]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 md:mb-4 animate-fade-in">لماذا تختارنا؟</h2>
-            <p className="text-sm md:text-lg text-gray-600 animate-fade-in" style={{ animationDelay: '0.3s' }}>نقدم لك أفضل تجربة تسوق</p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4 animate-fade-in text-[rgb(var(--color-text))]">لماذا تختارنا؟</h2>
+            <p className="text-sm md:text-lg animate-fade-in text-[rgb(var(--color-text-secondary))]" style={{ animationDelay: '0.3s' }}>نقدم لك أفضل تجربة تسوق</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
             {/* Feature 1 */}
-            <div className="text-center p-4 md:p-6 rounded-xl md:rounded-2xl bg-white hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-3 animate-fade-in group">
+            <div className="text-center p-4 md:p-6 rounded-xl md:rounded-2xl hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-3 animate-fade-in group bg-[rgb(var(--color-background))]">
               <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
                 <HiOutlineShoppingCart className="text-white text-lg md:text-2xl" />
               </div>
-              <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">طلب سريع</h3>
-              <p className="text-xs md:text-sm text-gray-600">واجهة سهلة الاستخدام</p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">طلب سريع</h3>
+              <p className="text-xs md:text-sm text-[rgb(var(--color-text-secondary))]">واجهة سهلة الاستخدام</p>
             </div>
 
             {/* Feature 2 */}
-            <div className="text-center p-4 md:p-6 rounded-xl md:rounded-2xl bg-white hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-3 animate-fade-in group" style={{ animationDelay: '200ms' }}>
+            <div className="text-center p-4 md:p-6 rounded-xl md:rounded-2xl hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-3 animate-fade-in group bg-[rgb(var(--color-background))]" style={{ animationDelay: '200ms' }}>
               <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
                 <HiOutlineTruck className="text-white text-lg md:text-2xl" />
               </div>
-              <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">توصيل سريع</h3>
-              <p className="text-xs md:text-sm text-gray-600">مع تتبع مباشر</p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">توصيل سريع</h3>
+              <p className="text-xs md:text-sm text-[rgb(var(--color-text-secondary))]">مع تتبع مباشر</p>
             </div>
 
             {/* Feature 3 */}
-            <div className="text-center p-4 md:p-6 rounded-xl md:rounded-2xl bg-white hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-3 animate-fade-in group" style={{ animationDelay: '400ms' }}>
+            <div className="text-center p-4 md:p-6 rounded-xl md:rounded-2xl hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-3 animate-fade-in group bg-[rgb(var(--color-background))]" style={{ animationDelay: '400ms' }}>
               <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
                 <HiOutlineStar className="text-white text-lg md:text-2xl" />
               </div>
-              <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">جودة عالية</h3>
-              <p className="text-xs md:text-sm text-gray-600">ضمان الرضا التام</p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">جودة عالية</h3>
+              <p className="text-xs md:text-sm text-[rgb(var(--color-text-secondary))]">ضمان الرضا التام</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Compact Categories Preview */}
-      <div className="py-8 md:py-16 bg-white">
+      <div className="py-8 md:py-16 bg-[rgb(var(--color-background))]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-6 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 md:mb-4 animate-fade-in">فئات المنتجات</h2>
-            <p className="text-sm md:text-lg text-gray-600 animate-fade-in" style={{ animationDelay: '0.3s' }}>اكتشف تشكيلتنا المتنوعة</p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4 animate-fade-in text-[rgb(var(--color-text))]">فئات المنتجات</h2>
+            <p className="text-sm md:text-lg animate-fade-in text-[rgb(var(--color-text-secondary))]" style={{ animationDelay: '0.3s' }}>اكتشف تشكيلتنا المتنوعة</p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
             {/* Ice Cream */}
             <Link
               to="/menu"
-              className="group text-center p-4 md:p-6 rounded-xl md:rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-4 animate-fade-in"
+              className="group text-center p-4 md:p-6 rounded-xl md:rounded-2xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-4 animate-fade-in bg-[rgb(var(--color-background-secondary))]"
             >
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-pink-400 to-red-400 flex items-center justify-center mx-auto mb-3 md:mb-4 overflow-hidden group-hover:scale-110 transition-transform duration-300">
                 <img src="/pic/ice.png" alt="Ice Cream" className="w-10 h-10 md:w-14 md:h-14 object-cover rounded-full" />
               </div>
-              <h3 className="text-sm md:text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-sm md:text-lg font-semibold group-hover:text-blue-600 transition-colors text-[rgb(var(--color-text))]">
                 المثلجات
               </h3>
             </Link>
             {/* Drinks */}
             <Link
               to="/menu"
-              className="group text-center p-4 md:p-6 rounded-xl md:rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-4 animate-fade-in"
+              className="group text-center p-4 md:p-6 rounded-xl md:rounded-2xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-4 animate-fade-in bg-[rgb(var(--color-background-secondary))]"
               style={{ animationDelay: '100ms' }}
             >
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center mx-auto mb-3 md:mb-4 overflow-hidden group-hover:scale-110 transition-transform duration-300">
                 <img src="/pic/drink.png" alt="Drinks" className="w-10 h-10 md:w-14 md:h-14 object-cover rounded-full" />
               </div>
-              <h3 className="text-sm md:text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-sm md:text-lg font-semibold group-hover:text-blue-600 transition-colors text-[rgb(var(--color-text))]">
                 المشروبات
               </h3>
             </Link>
             {/* Snacks */}
             <Link
               to="/menu"
-              className="group text-center p-4 md:p-6 rounded-xl md:rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-4 animate-fade-in"
+              className="group text-center p-4 md:p-6 rounded-xl md:rounded-2xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-4 animate-fade-in bg-[rgb(var(--color-background-secondary))]"
               style={{ animationDelay: '200ms' }}
             >
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center mx-auto mb-3 md:mb-4 overflow-hidden group-hover:scale-110 transition-transform duration-300">
                 <img src="/pic/snacks.png" alt="Snacks" className="w-10 h-10 md:w-14 md:h-14 object-cover rounded-full" />
               </div>
-              <h3 className="text-sm md:text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-sm md:text-lg font-semibold group-hover:text-blue-600 transition-colors text-[rgb(var(--color-text))]">
                 الوجبات الخفيفة
               </h3>
             </Link>
             {/* Fruits */}
             <Link
               to="/menu"
-              className="group text-center p-4 md:p-6 rounded-xl md:rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-4 animate-fade-in"
+              className="group text-center p-4 md:p-6 rounded-xl md:rounded-2xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 md:hover:-translate-y-4 animate-fade-in bg-[rgb(var(--color-background-secondary))]"
               style={{ animationDelay: '300ms' }}
             >
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-400 flex items-center justify-center mx-auto mb-3 md:mb-4 overflow-hidden group-hover:scale-110 transition-transform duration-300">
                 <img src="/pic/fruit.png" alt="Fruits" className="w-10 h-10 md:w-14 md:h-14 object-cover rounded-full" />
               </div>
-              <h3 className="text-sm md:text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-sm md:text-lg font-semibold group-hover:text-blue-600 transition-colors text-[rgb(var(--color-text))]">
                 الفواكه
               </h3>
             </Link>

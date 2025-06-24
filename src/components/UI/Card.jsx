@@ -7,7 +7,7 @@ export default function ProductCard({ product }) {
   const { addToCart } = useContext(CartContext);
 
   return (
-    <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden border border-gray-100">
+    <div className="group rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden border bg-[rgb(var(--color-background-secondary))] border-[rgb(var(--color-border))]">
       {/* Image Container */}
       <div className="relative overflow-hidden">
         <img 
@@ -23,7 +23,7 @@ export default function ProductCard({ product }) {
         </div>
         
         {/* Wishlist Button */}
-        <button className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full text-gray-600 hover:text-red-500 hover:bg-white transition-all duration-200 opacity-0 group-hover:opacity-100">
+        <button className="absolute top-3 right-3 p-2 backdrop-blur-sm rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100 bg-[rgb(var(--color-background-secondary))] text-[rgb(var(--color-text))]">
           <HiOutlineHeart className="text-lg" />
         </button>
         
@@ -36,12 +36,12 @@ export default function ProductCard({ product }) {
       {/* Content */}
       <div className="p-4">
         {/* Product Name */}
-        <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+        <h3 className="text-lg font-bold mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors text-[rgb(var(--color-text))]">
           {product.name}
         </h3>
         
         {/* Description */}
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+        <p className="text-sm mb-3 line-clamp-2 text-[rgb(var(--color-text-secondary))]">
           {product.description}
         </p>
         
@@ -52,7 +52,7 @@ export default function ProductCard({ product }) {
               <HiOutlineStar key={i} className={`text-sm ${i < 4 ? 'fill-current' : ''}`} />
             ))}
           </div>
-          <span className="text-xs text-gray-500 ml-1">(4.2)</span>
+          <span className="text-xs ml-1 text-[rgb(var(--color-text-secondary))]">(4.2)</span>
         </div>
         
         {/* Add to Cart Button */}

@@ -125,15 +125,15 @@ export default function Menu() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-[rgb(var(--color-background))]">
       <div className="max-w-7xl mx-auto p-4">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-3">
+          <h1 className="text-4xl font-bold mb-2 flex items-center justify-center gap-3 text-[rgb(var(--color-text))]">
             <HiOutlineViewGrid className="text-blue-600" />
             قائمة المنتجات
           </h1>
-          <p className="text-gray-600">اكتشف تشكيلة واسعة من المنتجات المميزة</p>
+          <p className="text-[rgb(var(--color-text-secondary))]">اكتشف تشكيلة واسعة من المنتجات المميزة</p>
         </div>
 
         {/* Search Bar */}
@@ -144,7 +144,7 @@ export default function Menu() {
               placeholder="البحث في المنتجات..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-12 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-all bg-white shadow-sm"
+              className="w-full px-4 py-3 pl-12 rounded-xl border-2 focus-ring transition-all shadow-sm bg-[rgb(var(--color-background-secondary))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))]"
             />
             <HiOutlineFilter className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
           </div>
@@ -154,7 +154,7 @@ export default function Menu() {
         <div className="mb-4 flex justify-center">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-6 py-3 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-gray-700 hover:text-blue-600"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 bg-[rgb(var(--color-background-secondary))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))]"
           >
             <HiOutlineFilter className="text-lg" />
             <span className="font-medium">
@@ -170,10 +170,10 @@ export default function Menu() {
 
         {/* Filters and Controls */}
         {showFilters && (
-          <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 animate-fade-in">
+          <div className="rounded-2xl shadow-lg p-6 mb-6 animate-fade-in bg-[rgb(var(--color-background-secondary))]">
             {/* Category Filters */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-[rgb(var(--color-text))]">
                 <HiOutlineFilter className="text-blue-600" />
                 الفئات
               </h3>
@@ -184,7 +184,7 @@ export default function Menu() {
                     className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 ${
                       selectedCategory === cat 
                         ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'hover:bg-gray-200 bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))]'
                     }`}
                     onClick={() => setSelectedCategory(cat)}
                   >
@@ -196,7 +196,7 @@ export default function Menu() {
 
             {/* Price Range Filter */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-[rgb(var(--color-text))]">
                 <HiOutlineCurrencyDollar className="text-blue-600" />
                 نطاق السعر
               </h3>
@@ -209,7 +209,7 @@ export default function Menu() {
                   onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
                   className="flex-1 h-2 rounded-lg appearance-none cursor-pointer"
                 />
-                <span className="text-sm font-medium text-gray-600 min-w-[80px]">
+                <span className="text-sm font-medium min-w-[80px] text-[rgb(var(--color-text-secondary))]">
                   {priceRange[0]} - {priceRange[1]} DH
                 </span>
               </div>
@@ -219,11 +219,11 @@ export default function Menu() {
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-700">ترتيب حسب:</span>
+                  <span className="text-sm font-medium text-[rgb(var(--color-text))]">ترتيب حسب:</span>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 bg-white"
+                    className="px-3 py-2 border rounded-lg focus-ring bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))]"
                   >
                     <option value="name">الاسم</option>
                     <option value="price">السعر</option>
@@ -231,7 +231,7 @@ export default function Menu() {
                   </select>
                   <button
                     onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                    className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                    className="p-2 rounded-lg transition-colors bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))]"
                   >
                     {sortOrder === 'asc' ? (
                       <HiOutlineSortAscending className="text-gray-600" />
@@ -243,11 +243,11 @@ export default function Menu() {
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-gray-700">عرض:</span>
+                <span className="text-sm font-medium text-[rgb(var(--color-text))]">عرض:</span>
                 <button
                   onClick={() => setViewMode('grid')}
                   className={`p-2 rounded-lg transition-colors ${
-                    viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    viewMode === 'grid' ? 'bg-blue-600 text-white' : 'hover:bg-gray-200 bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))]'
                   }`}
                 >
                   <HiOutlineViewGrid className="text-lg" />
@@ -255,7 +255,7 @@ export default function Menu() {
                 <button
                   onClick={() => setViewMode('list')}
                   className={`p-2 rounded-lg transition-colors ${
-                    viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    viewMode === 'list' ? 'bg-blue-600 text-white' : 'hover:bg-gray-200 bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))]'
                   }`}
                 >
                   <HiOutlineViewList className="text-lg" />
@@ -267,16 +267,16 @@ export default function Menu() {
 
         {/* Results Count and Pagination Info */}
         <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-          <p className="text-gray-600">
+          <p className="text-[rgb(var(--color-text-secondary))]">
             تم العثور على <span className="font-semibold text-blue-600">{filteredAndSortedProducts.length}</span> منتج
             {totalPages > 1 && (
-              <span className="text-gray-500">
+              <span className="text-[rgb(var(--color-text-secondary))]">
                 {' '}(الصفحة {currentPage} من {totalPages})
               </span>
             )}
           </p>
           {totalPages > 1 && (
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-[rgb(var(--color-text-secondary))]">
               عرض {startIndex + 1}-{Math.min(endIndex, filteredAndSortedProducts.length)} من {filteredAndSortedProducts.length}
             </p>
           )}
@@ -297,15 +297,15 @@ export default function Menu() {
         {filteredAndSortedProducts.length === 0 && (
           <div className="text-center py-12">
             <div className="text-gray-400 text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold text-gray-600 mb-2">لا توجد نتائج</h3>
-            <p className="text-gray-500">جرب تغيير الفلاتر أو البحث عن شيء آخر</p>
+            <h3 className="text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">لا توجد نتائج</h3>
+            <p className="text-[rgb(var(--color-text-secondary))]">جرب تغيير الفلاتر أو البحث عن شيء آخر</p>
           </div>
         )}
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
           <div className="mt-8 flex justify-center">
-            <div className="flex items-center gap-2 bg-white rounded-xl shadow-lg p-2">
+            <div className="flex items-center gap-2 rounded-xl shadow-lg p-2 bg-[rgb(var(--color-background-secondary))]">
               {/* Previous Button */}
               <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
@@ -313,7 +313,7 @@ export default function Menu() {
                 className={`p-2 rounded-lg transition-all duration-200 flex items-center gap-1 ${
                   currentPage === 1
                     ? 'text-gray-400 cursor-not-allowed'
-                    : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                    : 'hover:text-blue-600 hover:bg-blue-50 text-[rgb(var(--color-text))]'
                 }`}
               >
                 <HiOutlineChevronLeft className="text-lg" />
@@ -331,8 +331,8 @@ export default function Menu() {
                       page === currentPage
                         ? 'bg-blue-600 text-white shadow-lg'
                         : page === '...'
-                        ? 'text-gray-400 cursor-default'
-                        : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                        ? 'cursor-default text-gray-400'
+                        : 'hover:text-blue-600 hover:bg-blue-50 text-[rgb(var(--color-text))]'
                     }`}
                   >
                     {page}
@@ -347,7 +347,7 @@ export default function Menu() {
                 className={`p-2 rounded-lg transition-all duration-200 flex items-center gap-1 ${
                   currentPage === totalPages
                     ? 'text-gray-400 cursor-not-allowed'
-                    : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                    : 'hover:text-blue-600 hover:bg-blue-50 text-[rgb(var(--color-text))]'
                 }`}
               >
                 <span className="hidden sm:inline">التالي</span>
