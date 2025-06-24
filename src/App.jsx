@@ -7,21 +7,43 @@ import Menu from "./pages/Menu";
 import Cart from "./pages/Cart";
 import Navbar from "./components/Navbar";
 import OrderTracking from "./pages/OrderTracking";
+import AdminRoutes from "./admin/AdminRoutes";
 
 export default function AppRouter() {
   return (
     <ThemeProvider>
       <LanguageProvider>
         <BrowserRouter>
-          <div className="pb-16"> {/* padding bottom for navbar */}
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/menu" element={<Menu />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/order-tracking" element={<OrderTracking />} />
-            </Routes>
-            <Navbar />
-          </div>
+          <Routes>
+            {/* Admin Routes */}
+            <Route path="/admin/*" element={<AdminRoutes />} />
+            
+            {/* Customer Routes */}
+            <Route path="/" element={
+              <div className="pb-16"> {/* padding bottom for navbar */}
+                <Home />
+                <Navbar />
+              </div>
+            } />
+            <Route path="/menu" element={
+              <div className="pb-16">
+                <Menu />
+                <Navbar />
+              </div>
+            } />
+            <Route path="/cart" element={
+              <div className="pb-16">
+                <Cart />
+                <Navbar />
+              </div>
+            } />
+            <Route path="/order-tracking" element={
+              <div className="pb-16">
+                <OrderTracking />
+                <Navbar />
+              </div>
+            } />
+          </Routes>
         </BrowserRouter>
       </LanguageProvider>
     </ThemeProvider>
