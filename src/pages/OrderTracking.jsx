@@ -1,67 +1,70 @@
 import { HiOutlineTruck, HiOutlineClock, HiOutlineCheckCircle } from 'react-icons/hi';
+import { useLanguage } from '../Context/LanguageContext';
 
 export default function OrderTracking() {
+  const { t } = useLanguage();
+
   return (
-    <div className="min-h-screen p-6 bg-[rgb(var(--color-background))]">
-      <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-4 text-[rgb(var(--color-text))]">
-            تتبع الطلب
+    <div className="min-h-screen p-4 bg-[rgb(var(--color-background))] pb-20">
+      <div className="max-w-sm mx-auto">
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-bold mb-3 text-[rgb(var(--color-text))]">
+            {t('order_tracking_title')}
           </h1>
-          <p className="text-[rgb(var(--color-text-secondary))]">
-            تتبع حالة طلبك في الوقت الفعلي
+          <p className="text-sm text-[rgb(var(--color-text-secondary))]">
+            {t('order_tracking_subtitle')}
           </p>
         </div>
 
         {/* Coming Soon Card */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 text-center bg-[rgb(var(--color-background-secondary))] border-[rgb(var(--color-border))]">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center bg-[rgb(var(--color-border))]">
-            <HiOutlineTruck className="text-3xl text-[rgb(var(--color-text))]" />
+        <div className="bg-white rounded-xl shadow-lg p-6 text-center bg-[rgb(var(--color-background-secondary))] border-[rgb(var(--color-border))]">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-[rgb(var(--color-border))]">
+            <HiOutlineTruck className="text-2xl text-[rgb(var(--color-text))]" />
           </div>
           
-          <h2 className="text-2xl font-bold mb-4 text-[rgb(var(--color-text))]">
-            ميزة تتبع الطلب قادمة قريباً!
+          <h2 className="text-xl font-bold mb-3 text-[rgb(var(--color-text))]">
+            {t('order_tracking_coming_soon')}
           </h2>
           
-          <p className="text-lg mb-6 text-[rgb(var(--color-text-secondary))]">
-            سنقوم بإطلاق ميزة تتبع الطلب قريباً لتتمكن من متابعة طلبك خطوة بخطوة
+          <p className="text-sm mb-4 text-[rgb(var(--color-text-secondary))]">
+            {t('order_tracking_desc')}
           </p>
 
           {/* Mock Tracking Steps */}
-          <div className="space-y-4 mb-8">
-            <div className="flex items-center gap-4 p-4 rounded-lg bg-[rgb(var(--color-background))]">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[rgb(var(--color-secondary))]">
-                <HiOutlineCheckCircle className="text-white text-lg" />
+          <div className="space-y-3 mb-6">
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-[rgb(var(--color-background))]">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[rgb(var(--color-secondary))]">
+                <HiOutlineCheckCircle className="text-white text-sm" />
               </div>
               <div className="text-right flex-1">
-                <h3 className="font-semibold text-[rgb(var(--color-text))]">تم استلام الطلب</h3>
-                <p className="text-sm text-[rgb(var(--color-text-secondary))]">تم تأكيد طلبك بنجاح</p>
+                <h3 className="font-semibold text-sm text-[rgb(var(--color-text))]">{t('order_tracking_received')}</h3>
+                <p className="text-xs text-[rgb(var(--color-text-secondary))]">{t('order_tracking_received_desc')}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4 p-4 rounded-lg opacity-50 bg-[rgb(var(--color-background))]">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[rgb(var(--color-border))]">
-                <HiOutlineClock className="text-white text-lg" />
+            <div className="flex items-center gap-3 p-3 rounded-lg opacity-50 bg-[rgb(var(--color-background))]">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[rgb(var(--color-border))]">
+                <HiOutlineClock className="text-white text-sm" />
               </div>
               <div className="text-right flex-1">
-                <h3 className="font-semibold text-[rgb(var(--color-text))]">قيد التحضير</h3>
-                <p className="text-sm text-[rgb(var(--color-text-secondary))]">سيتم تحضير طلبك قريباً</p>
+                <h3 className="font-semibold text-sm text-[rgb(var(--color-text))]">{t('order_tracking_preparing')}</h3>
+                <p className="text-xs text-[rgb(var(--color-text-secondary))]">{t('order_tracking_preparing_desc')}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4 p-4 rounded-lg opacity-50 bg-[rgb(var(--color-background))]">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[rgb(var(--color-border))]">
-                <HiOutlineTruck className="text-white text-lg" />
+            <div className="flex items-center gap-3 p-3 rounded-lg opacity-50 bg-[rgb(var(--color-background))]">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[rgb(var(--color-border))]">
+                <HiOutlineTruck className="text-white text-sm" />
               </div>
               <div className="text-right flex-1">
-                <h3 className="font-semibold text-[rgb(var(--color-text))]">قيد التوصيل</h3>
-                <p className="text-sm text-[rgb(var(--color-text-secondary))]">سيتم توصيل طلبك قريباً</p>
+                <h3 className="font-semibold text-sm text-[rgb(var(--color-text))]">{t('order_tracking_delivering')}</h3>
+                <p className="text-xs text-[rgb(var(--color-text-secondary))]">{t('order_tracking_delivering_desc')}</p>
               </div>
             </div>
           </div>
 
-          <div className="text-sm text-[rgb(var(--color-text-secondary))]">
-            🔔 سنقوم بإشعارك عند إطلاق هذه الميزة
+          <div className="text-xs text-[rgb(var(--color-text-secondary))]">
+            🔔 {t('order_tracking_notification')}
           </div>
         </div>
       </div>

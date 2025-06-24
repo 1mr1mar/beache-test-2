@@ -10,44 +10,63 @@ import {
   HiOutlineClock,
   HiOutlineSearch,
   HiOutlineArrowUp,
-  HiOutlineSparkles
+  HiOutlineSparkles,
+  HiOutlineCube,
+  HiOutlineShieldCheck
 } from 'react-icons/hi';
 import ThemeSwitcher from '../components/UI/ThemeSwitcher';
+import LanguageSwitcher from '../components/UI/LanguageSwitcher';
+import { useLanguage } from '../Context/LanguageContext';
 
 export default function Home() {
+  const { t } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const [counters, setCounters] = useState({ customers: 0, orders: 0, rating: 0 });
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Hero slider images
-  const heroImages = [
+  const images = [
+    '/pic/drinkswlp.jpg',
+    '/pic/friutwlp2.jpg',
+    '/pic/iceCreamWlp.jpg',
+    '/pic/snackswlp.jpg',
+    '/pic/fruitwalp1.jpg'
+  ];
+
+  const heroTexts = [
     {
-      image: '/pic/product1.jpg',
-      title: 'شاطئ المنتجات',
-      subtitle: 'اكتشف تشكيلة واسعة من المنتجات المميزة'
+      headline: t('hero_headline'),
+      subheadline: t('hero_subheadline'),
+      cta: t('hero_cta')
     },
     {
-      image: '/pic/iceCreamWlp.jpg',
-      title: 'المثلجات المنعشة',
-      subtitle: 'استمتع بألذ المثلجات الطازجة'
+      headline: t('hero_headline'),
+      subheadline: t('hero_subheadline'),
+      cta: t('hero_cta')
     },
     {
-      image: '/pic/drinkswlp.jpg',
-      title: 'المشروبات المنعشة',
-      subtitle: 'اشرب من تشكيلة المشروبات الباردة'
+      headline: t('hero_headline'),
+      subheadline: t('hero_subheadline'),
+      cta: t('hero_cta')
     },
     {
-      image: '/pic/snackswlp.jpg',
-      title: 'الوجبات الخفيفة',
-      subtitle: 'تناول ألذ الوجبات الخفيفة'
+      headline: t('hero_headline'),
+      subheadline: t('hero_subheadline'),
+      cta: t('hero_cta')
     },
     {
-      image: '/pic/fruitwalp1.jpg',
-      title: 'الفواكه الطازجة',
-      subtitle: 'استمتع بالفواكه الطازجة'
+      headline: t('hero_headline'),
+      subheadline: t('hero_subheadline'),
+      cta: t('hero_cta')
     }
+  ];
+
+  const stats = [
+    { icon: HiOutlineUsers, value: '500+', label: t('stats_customers') },
+    { icon: HiOutlineCube, value: '50+', label: t('stats_products') },
+    { icon: HiOutlineTruck, value: '15', label: t('stats_delivery') },
+    { icon: HiOutlineShieldCheck, value: '100%', label: t('stats_quality') }
   ];
 
   // Animation on scroll
@@ -86,11 +105,11 @@ export default function Home() {
   // Hero slider rotation
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+      setCurrentSlide((prev) => (prev + 1) % images.length);
     }, 2500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [images.length]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -112,7 +131,7 @@ export default function Home() {
           <form onSubmit={handleSearch} className="relative flex-1">
             <input
               type="text"
-              placeholder="ابحث عن منتجاتك المفضلة..."
+              placeholder={t('hero_search_placeholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-4 py-3 pr-12 rounded-full shadow-lg border focus-ring transition-all duration-300 bg-[rgb(var(--color-background-secondary))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))]"
@@ -124,110 +143,81 @@ export default function Home() {
               <HiOutlineSearch className="text-xl" />
             </button>
           </form>
+          <LanguageSwitcher />
           <ThemeSwitcher />
         </div>
       </div>
 
       {/* Hero Section with Slider */}
-      <div className="relative w-full h-[93vh] flex items-center justify-center overflow-hidden">
-        {/* Slider Images */}
-        {heroImages.map((image, index) => (
-          <img
+      <div className="relative h-screen overflow-hidden">
+        {/* Background Images */}
+        {images.map((image, index) => (
+          <div
             key={index}
-            src={image.image}
-            alt={`Hero Slide ${index + 1}`}
-            className={`absolute inset-0 w-full h-full object-cover object-center z-0 transition-opacity duration-1000 ${
+            className={`absolute inset-0 transition-opacity duration-1000 ${
               index === currentSlide ? 'opacity-100' : 'opacity-0'
             }`}
-          />
+          >
+            <img
+              src={image}
+              alt={`Slide ${index + 1}`}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/40"></div>
+          </div>
         ))}
-        
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/60 to-blue-400/30 z-10" />
-        
-        {/* Floating Sparkles Effect */}
-        <div className="absolute inset-0 z-15 pointer-events-none">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute animate-pulse"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 2}s`,
-                animationDuration: `${2 + Math.random() * 2}s`
-              }}
-            >
-              <HiOutlineSparkles className="text-white/30 text-2xl" />
+
+        {/* Content Overlay */}
+        <div className="relative z-10 h-full flex flex-col justify-center items-center text-center text-white px-4">
+          {/* Header with Theme and Language Switchers */}
+          <div className="absolute top-4 right-4 flex gap-2 z-20">
+            <ThemeSwitcher />
+          </div>
+
+          {/* Hero Content */}
+          <div className="w-full max-w-sm mx-auto px-4">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-4 animate-fade-in leading-tight">
+              {heroTexts[currentSlide].headline}
+            </h1>
+            <p className="text-sm sm:text-base mb-6 animate-fade-in leading-relaxed">
+              {heroTexts[currentSlide].subheadline}
+            </p>
+
+            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-xl font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-200 animate-fade-in active:scale-95 touch-manipulation">
+              {heroTexts[currentSlide].cta}
+            </button>
+          </div>
+
+          {/* Stats Overlay */}
+          <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-full px-4">
+            <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
+              {stats.map((stat, index) => (
+                <div
+                  key={index}
+                  className="text-center backdrop-blur-md bg-white/20 rounded-lg p-3 border border-white/30"
+                >
+                  <stat.icon className="text-xl mx-auto mb-1" />
+                  <div className="text-sm font-bold">{stat.value}</div>
+                  <div className="text-xs opacity-90">{stat.label}</div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
-        
-        {/* Slider Dots */}
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
-          {heroImages.map((_, index) => (
+
+        {/* Navigation Dots */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+          {images.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/75'
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 touch-manipulation ${
+                index === currentSlide
+                  ? 'bg-white scale-125'
+                  : 'bg-white/50 hover:bg-white/75'
               }`}
             />
           ))}
-        </div>
-
-        {/* Stats Section at Bottom */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-2xl px-4">
-          <div className="grid grid-cols-3 gap-2 md:gap-4">
-            <div className="text-center border-1 border-white p-2 md:p-3 rounded-lg md:rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300">
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-1 md:mb-2 animate-bounce" style={{ animationDuration: '2s' }}>
-                <HiOutlineUsers className="text-white text-sm md:text-lg" />
-              </div>
-              <h3 className="text-sm md:text-lg font-bold text-white mb-0.5 md:mb-1">{counters.customers}+</h3>
-              <p className="text-xs md:text-sm text-white/90">عميل سعيد</p>
-            </div>
-            <div className="text-center border-1 border-white p-2 md:p-3 rounded-lg md:rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300">
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-1 md:mb-2 animate-bounce" style={{ animationDuration: '2s', animationDelay: '0.2s' }}>
-                <HiOutlineClock className="text-white text-sm md:text-lg" />
-              </div>
-              <h3 className="text-sm md:text-lg font-bold text-white mb-0.5 md:mb-1">{counters.orders}+</h3>
-              <p className="text-xs md:text-sm text-white/90">طلب مكتمل</p>
-            </div>
-            <div className="text-center border-1 border-white p-2 md:p-3 rounded-lg md:rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300">
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-1 md:mb-2 animate-bounce" style={{ animationDuration: '2s', animationDelay: '0.4s' }}>
-                <HiOutlineStar className="text-white text-sm md:text-lg" />
-              </div>
-              <h3 className="text-sm md:text-lg font-bold text-white mb-0.5 md:mb-1">{counters.rating}</h3>
-              <p className="text-xs md:text-sm text-white/90">تقييم متوسط</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative z-20 text-center w-full flex flex-col items-center justify-center px-4">
-          <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-4 md:mb-6 drop-shadow-lg animate-fade-in">
-            {heroImages[currentSlide].title}
-          </h1>
-          <p className="text-sm md:text-xl text-blue-100 mb-6 md:mb-8 max-w-2xl mx-auto drop-shadow animate-fade-in" style={{ animationDelay: '0.5s' }}>
-            {heroImages[currentSlide].subtitle}
-          </p>
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center animate-fade-in" style={{ animationDelay: '1s' }}>
-            <Link
-              to="/menu"
-              className="flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-blue-600 text-white rounded-xl font-semibold text-sm md:text-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl animate-pulse"
-              style={{ animationDuration: '2s' }}
-            >
-              <HiOutlineShoppingCart className="text-lg md:text-xl" />
-              تصفح المنتجات
-              <HiOutlineArrowRight className="text-lg md:text-xl" />
-            </Link>
-            <Link
-              to="/order-tracking"
-              className="flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-white text-blue-600 rounded-xl font-semibold text-sm md:text-lg hover:bg-blue-50 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl border-2 border-blue-600"
-            >
-              <HiOutlineTruck className="text-lg md:text-xl" />
-              تتبع طلبك
-            </Link>
-          </div>
         </div>
       </div>
 
@@ -235,8 +225,8 @@ export default function Home() {
       <div className="py-8 md:py-16 bg-[rgb(var(--color-background-secondary))]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4 animate-fade-in text-[rgb(var(--color-text))]">لماذا تختارنا؟</h2>
-            <p className="text-sm md:text-lg animate-fade-in text-[rgb(var(--color-text-secondary))]" style={{ animationDelay: '0.3s' }}>نقدم لك أفضل تجربة تسوق</p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4 animate-fade-in text-[rgb(var(--color-text))]">{t('features_title')}</h2>
+            <p className="text-sm md:text-lg animate-fade-in text-[rgb(var(--color-text-secondary))]" style={{ animationDelay: '0.3s' }}>{t('features_subtitle')}</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
@@ -245,8 +235,8 @@ export default function Home() {
               <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
                 <HiOutlineShoppingCart className="text-white text-lg md:text-2xl" />
               </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">طلب سريع</h3>
-              <p className="text-xs md:text-sm text-[rgb(var(--color-text-secondary))]">واجهة سهلة الاستخدام</p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">{t('feature_fast_order_title')}</h3>
+              <p className="text-xs md:text-sm text-[rgb(var(--color-text-secondary))]">{t('feature_fast_order_desc')}</p>
             </div>
 
             {/* Feature 2 */}
@@ -254,8 +244,8 @@ export default function Home() {
               <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
                 <HiOutlineTruck className="text-white text-lg md:text-2xl" />
               </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">توصيل سريع</h3>
-              <p className="text-xs md:text-sm text-[rgb(var(--color-text-secondary))]">مع تتبع مباشر</p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">{t('feature_fast_delivery_title')}</h3>
+              <p className="text-xs md:text-sm text-[rgb(var(--color-text-secondary))]">{t('feature_fast_delivery_desc')}</p>
             </div>
 
             {/* Feature 3 */}
@@ -263,8 +253,8 @@ export default function Home() {
               <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
                 <HiOutlineStar className="text-white text-lg md:text-2xl" />
               </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">جودة عالية</h3>
-              <p className="text-xs md:text-sm text-[rgb(var(--color-text-secondary))]">ضمان الرضا التام</p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">{t('feature_high_quality_title')}</h3>
+              <p className="text-xs md:text-sm text-[rgb(var(--color-text-secondary))]">{t('feature_high_quality_desc')}</p>
             </div>
           </div>
         </div>
@@ -274,8 +264,8 @@ export default function Home() {
       <div className="py-8 md:py-16 bg-[rgb(var(--color-background))]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-6 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4 animate-fade-in text-[rgb(var(--color-text))]">فئات المنتجات</h2>
-            <p className="text-sm md:text-lg animate-fade-in text-[rgb(var(--color-text-secondary))]" style={{ animationDelay: '0.3s' }}>اكتشف تشكيلتنا المتنوعة</p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4 animate-fade-in text-[rgb(var(--color-text))]">{t('categories_title')}</h2>
+            <p className="text-sm md:text-lg animate-fade-in text-[rgb(var(--color-text-secondary))]" style={{ animationDelay: '0.3s' }}>{t('categories_subtitle')}</p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
@@ -288,7 +278,7 @@ export default function Home() {
                 <img src="/pic/ice.png" alt="Ice Cream" className="w-10 h-10 md:w-14 md:h-14 object-cover rounded-full" />
               </div>
               <h3 className="text-sm md:text-lg font-semibold group-hover:text-blue-600 transition-colors text-[rgb(var(--color-text))]">
-                المثلجات
+                {t('category_ice_cream')}
               </h3>
             </Link>
             {/* Drinks */}
@@ -301,7 +291,7 @@ export default function Home() {
                 <img src="/pic/drink.png" alt="Drinks" className="w-10 h-10 md:w-14 md:h-14 object-cover rounded-full" />
               </div>
               <h3 className="text-sm md:text-lg font-semibold group-hover:text-blue-600 transition-colors text-[rgb(var(--color-text))]">
-                المشروبات
+                {t('category_drinks')}
               </h3>
             </Link>
             {/* Snacks */}
@@ -314,7 +304,7 @@ export default function Home() {
                 <img src="/pic/snacks.png" alt="Snacks" className="w-10 h-10 md:w-14 md:h-14 object-cover rounded-full" />
               </div>
               <h3 className="text-sm md:text-lg font-semibold group-hover:text-blue-600 transition-colors text-[rgb(var(--color-text))]">
-                الوجبات الخفيفة
+                {t('category_snacks')}
               </h3>
             </Link>
             {/* Fruits */}
@@ -327,7 +317,7 @@ export default function Home() {
                 <img src="/pic/fruit.png" alt="Fruits" className="w-10 h-10 md:w-14 md:h-14 object-cover rounded-full" />
               </div>
               <h3 className="text-sm md:text-lg font-semibold group-hover:text-blue-600 transition-colors text-[rgb(var(--color-text))]">
-                الفواكه
+                {t('category_fruits')}
               </h3>
             </Link>
           </div>
@@ -339,10 +329,10 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/10" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 md:mb-6 animate-fade-in">
-            جاهز لبدء التسوق؟
+            {t('cta_title')}
           </h2>
           <p className="text-sm md:text-lg text-blue-100 mb-6 md:mb-8 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            انضم إلينا الآن واستمتع بأفضل المنتجات
+            {t('cta_subtitle')}
           </p>
           <Link
             to="/menu"
@@ -350,7 +340,7 @@ export default function Home() {
             style={{ animationDuration: '2s' }}
           >
             <HiOutlineHeart className="text-lg md:text-xl" />
-            ابدأ التسوق الآن
+            {t('cta_button')}
             <HiOutlineArrowRight className="text-lg md:text-xl" />
           </Link>
         </div>

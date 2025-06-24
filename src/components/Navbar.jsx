@@ -2,9 +2,11 @@ import { NavLink } from 'react-router-dom';
 import { HiOutlineHome, HiOutlineShoppingCart, HiOutlineClipboardList, HiOutlineViewGrid } from 'react-icons/hi';
 import { useContext } from 'react';
 import { CartContext } from '../Context/CartContext';
+import { useLanguage } from '../Context/LanguageContext';
 
 export default function Navbar() {
   const { cart } = useContext(CartContext);
+  const { t } = useLanguage();
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
@@ -14,24 +16,27 @@ export default function Navbar() {
         className={({ isActive }) => `flex flex-col items-center text-xs transition-colors duration-200 ${
           isActive ? 'text-blue-600' : 'text-[rgb(var(--color-text-secondary))]'
         }`}
+        title={t('navbar_home')}
       >
         <HiOutlineHome className="text-2xl mb-1" />
-        الرئيسية
+        {t('navbar_home')}
       </NavLink>
       <NavLink 
         to="/menu" 
         className={({ isActive }) => `flex flex-col items-center text-xs transition-colors duration-200 ${
           isActive ? 'text-blue-600' : 'text-[rgb(var(--color-text-secondary))]'
         }`}
+        title={t('navbar_menu')}
       >
         <HiOutlineViewGrid className="text-2xl mb-1" />
-        القائمة
+        {t('navbar_menu')}
       </NavLink>
       <NavLink 
         to="/cart" 
         className={({ isActive }) => `flex flex-col items-center text-xs relative transition-colors duration-200 ${
           isActive ? 'text-blue-600' : 'text-[rgb(var(--color-text-secondary))]'
         }`}
+        title={t('navbar_cart')}
       >
         <HiOutlineShoppingCart className="text-2xl mb-1" />
         {cartCount > 0 && (
@@ -39,16 +44,17 @@ export default function Navbar() {
             {cartCount}
           </span>
         )}
-        السلة
+        {t('navbar_cart')}
       </NavLink>
       <NavLink 
         to="/order-tracking" 
         className={({ isActive }) => `flex flex-col items-center text-xs transition-colors duration-200 ${
           isActive ? 'text-blue-600' : 'text-[rgb(var(--color-text-secondary))]'
         }`}
+        title={t('navbar_order_tracking')}
       >
         <HiOutlineClipboardList className="text-2xl mb-1" />
-        تتبع الطلب
+        {t('navbar_order_tracking')}
       </NavLink>
     </nav>
   );

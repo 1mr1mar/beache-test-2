@@ -2,6 +2,7 @@
 import { useState, useMemo } from 'react';
 import { products, categories } from '../data/products';
 import ProductCard from '../components/UI/Card';
+import { useLanguage } from '../Context/LanguageContext';
 import { 
   HiOutlineFilter, 
   HiOutlineSortAscending, 
@@ -16,6 +17,7 @@ import {
 } from 'react-icons/hi';
 
 export default function Menu() {
+  const { t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [sortBy, setSortBy] = useState('name');
@@ -124,41 +126,53 @@ export default function Menu() {
     return pages;
   };
 
+  // Category mapping for translations
+  const getCategoryTranslation = (category) => {
+    const categoryMap = {
+      'All': t('category_all'),
+      'Drinks': t('category_drinks'),
+      'Fruits': t('category_fruits'),
+      'Ice Cream': t('category_ice_cream'),
+      'Snacks': t('category_snacks')
+    };
+    return categoryMap[category] || category;
+  };
+
   return (
-    <div className="min-h-screen bg-[rgb(var(--color-background))]">
-      <div className="max-w-7xl mx-auto p-4">
+    <div className="min-h-screen bg-[rgb(var(--color-background))] pb-20">
+      <div className="max-w-md mx-auto p-4">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2 flex items-center justify-center gap-3 text-[rgb(var(--color-text))]">
-            <HiOutlineViewGrid className="text-blue-600" />
-            قائمة المنتجات
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-bold mb-2 flex items-center justify-center gap-2 text-[rgb(var(--color-text))]">
+            <HiOutlineViewGrid className="text-blue-600 text-xl" />
+            {t('menu_title')}
           </h1>
-          <p className="text-[rgb(var(--color-text-secondary))]">اكتشف تشكيلة واسعة من المنتجات المميزة</p>
+          <p className="text-sm text-[rgb(var(--color-text-secondary))]">{t('menu_subtitle')}</p>
         </div>
 
         {/* Search Bar */}
-        <div className="mb-6">
-          <div className="relative max-w-md mx-auto">
+        <div className="mb-4">
+          <div className="relative">
             <input
               type="text"
-              placeholder="البحث في المنتجات..."
+              placeholder={t('menu_search_placeholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-12 rounded-xl border-2 focus-ring transition-all shadow-sm bg-[rgb(var(--color-background-secondary))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))]"
+              className="w-full px-4 py-3 pl-12 rounded-xl border-2 focus-ring transition-all shadow-sm bg-[rgb(var(--color-background-secondary))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))] text-base"
             />
-            <HiOutlineFilter className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+            <HiOutlineFilter className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
           </div>
         </div>
 
         {/* Filters Toggle Button */}
-        <div className="mb-4 flex justify-center">
+        <div className="mb-4">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 bg-[rgb(var(--color-background-secondary))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))]"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 bg-[rgb(var(--color-background-secondary))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))] touch-manipulation"
           >
             <HiOutlineFilter className="text-lg" />
-            <span className="font-medium">
-              {showFilters ? 'إخفاء الفلاتر' : 'إظهار الفلاتر'}
+            <span className="font-medium text-base">
+              {showFilters ? t('menu_hide_filters') : t('menu_show_filters')}
             </span>
             {showFilters ? (
               <HiOutlineChevronUp className="text-lg" />
@@ -170,37 +184,37 @@ export default function Menu() {
 
         {/* Filters and Controls */}
         {showFilters && (
-          <div className="rounded-2xl shadow-lg p-6 mb-6 animate-fade-in bg-[rgb(var(--color-background-secondary))]">
+          <div className="rounded-xl shadow-lg p-4 mb-4 animate-fade-in bg-[rgb(var(--color-background-secondary))]">
             {/* Category Filters */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-[rgb(var(--color-text))]">
+            <div className="mb-4">
+              <h3 className="text-base font-semibold mb-3 flex items-center gap-2 text-[rgb(var(--color-text))]">
                 <HiOutlineFilter className="text-blue-600" />
-                الفئات
+                {t('menu_categories')}
               </h3>
-              <div className="flex flex-wrap gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 {categories.map((cat) => (
                   <button
                     key={cat}
-                    className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 ${
+                    className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 touch-manipulation text-sm ${
                       selectedCategory === cat 
                         ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
                         : 'hover:bg-gray-200 bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))]'
                     }`}
                     onClick={() => setSelectedCategory(cat)}
                   >
-                    {cat}
+                    {getCategoryTranslation(cat)}
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Price Range Filter */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-[rgb(var(--color-text))]">
+            <div className="mb-4">
+              <h3 className="text-base font-semibold mb-3 flex items-center gap-2 text-[rgb(var(--color-text))]">
                 <HiOutlineCurrencyDollar className="text-blue-600" />
-                نطاق السعر
+                {t('menu_price_range')}
               </h3>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
                 <input
                   type="range"
                   min={minPrice}
@@ -209,83 +223,68 @@ export default function Menu() {
                   onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
                   className="flex-1 h-2 rounded-lg appearance-none cursor-pointer"
                 />
-                <span className="text-sm font-medium min-w-[80px] text-[rgb(var(--color-text-secondary))]">
-                  {priceRange[0]} - {priceRange[1]} DH
+                <span className="text-sm font-medium min-w-[70px] text-[rgb(var(--color-text-secondary))]">
+                  {priceRange[0]} - {priceRange[1]} {t('currency')}
                 </span>
               </div>
             </div>
 
             {/* Sort and View Controls */}
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-[rgb(var(--color-text))]">ترتيب حسب:</span>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="px-3 py-2 border rounded-lg focus-ring bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))]"
-                  >
-                    <option value="name">الاسم</option>
-                    <option value="price">السعر</option>
-                    <option value="category">الفئة</option>
-                  </select>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-[rgb(var(--color-text))]">{t('menu_sort_by')}</span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="px-3 py-2 border rounded-lg focus-ring bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))] border-[rgb(var(--color-border))] text-sm"
+                >
+                  <option value="name">{t('menu_sort_name')}</option>
+                  <option value="price">{t('menu_sort_price')}</option>
+                  <option value="category">{t('menu_sort_category')}</option>
+                </select>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-[rgb(var(--color-text))]">{t('menu_view')}</span>
+                <div className="flex gap-1">
                   <button
-                    onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                    className="p-2 rounded-lg transition-colors bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))]"
+                    onClick={() => setViewMode('grid')}
+                    className={`p-2 rounded-lg transition-colors touch-manipulation ${
+                      viewMode === 'grid' ? 'bg-blue-600 text-white' : 'hover:bg-gray-200 bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))]'
+                    }`}
                   >
-                    {sortOrder === 'asc' ? (
-                      <HiOutlineSortAscending className="text-gray-600" />
-                    ) : (
-                      <HiOutlineSortDescending className="text-gray-600" />
-                    )}
+                    <HiOutlineViewGrid className="text-lg" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`p-2 rounded-lg transition-colors touch-manipulation ${
+                      viewMode === 'list' ? 'bg-blue-600 text-white' : 'hover:bg-gray-200 bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))]'
+                    }`}
+                  >
+                    <HiOutlineViewList className="text-lg" />
                   </button>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-[rgb(var(--color-text))]">عرض:</span>
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-lg transition-colors ${
-                    viewMode === 'grid' ? 'bg-blue-600 text-white' : 'hover:bg-gray-200 bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))]'
-                  }`}
-                >
-                  <HiOutlineViewGrid className="text-lg" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 rounded-lg transition-colors ${
-                    viewMode === 'list' ? 'bg-blue-600 text-white' : 'hover:bg-gray-200 bg-[rgb(var(--color-background))] text-[rgb(var(--color-text))]'
-                  }`}
-                >
-                  <HiOutlineViewList className="text-lg" />
-                </button>
               </div>
             </div>
           </div>
         )}
 
         {/* Results Count and Pagination Info */}
-        <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-          <p className="text-[rgb(var(--color-text-secondary))]">
-            تم العثور على <span className="font-semibold text-blue-600">{filteredAndSortedProducts.length}</span> منتج
+        <div className="mb-4 text-center">
+          <p className="text-sm text-[rgb(var(--color-text-secondary))]">
+            {t('menu_results_found')} <span className="font-semibold text-blue-600">{filteredAndSortedProducts.length}</span> {t('menu_products')}
             {totalPages > 1 && (
               <span className="text-[rgb(var(--color-text-secondary))]">
-                {' '}(الصفحة {currentPage} من {totalPages})
+                {' '}({t('menu_page')} {currentPage} {t('menu_of')} {totalPages})
               </span>
             )}
           </p>
-          {totalPages > 1 && (
-            <p className="text-sm text-[rgb(var(--color-text-secondary))]">
-              عرض {startIndex + 1}-{Math.min(endIndex, filteredAndSortedProducts.length)} من {filteredAndSortedProducts.length}
-            </p>
-          )}
         </div>
 
-        {/* Products Grid - Always 2 columns on mobile, more on larger screens */}
-        <div className={`grid gap-6 ${
+        {/* Products Grid - 2 columns for mobile */}
+        <div className={`grid gap-4 ${
           viewMode === 'grid' 
-            ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' 
+            ? 'grid-cols-2' 
             : 'grid-cols-1'
         }`}>
           {currentProducts.map((product) => (
@@ -296,28 +295,28 @@ export default function Menu() {
         {/* No Results */}
         {filteredAndSortedProducts.length === 0 && (
           <div className="text-center py-12">
-            <div className="text-gray-400 text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold mb-2 text-[rgb(var(--color-text))]">لا توجد نتائج</h3>
-            <p className="text-[rgb(var(--color-text-secondary))]">جرب تغيير الفلاتر أو البحث عن شيء آخر</p>
+            <div className="text-gray-400 text-4xl mb-4">🔍</div>
+            <h3 className="text-lg font-semibold mb-2 text-[rgb(var(--color-text))]">{t('menu_no_results')}</h3>
+            <p className="text-sm text-[rgb(var(--color-text-secondary))]">{t('menu_no_results_desc')}</p>
           </div>
         )}
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="mt-8 flex justify-center">
-            <div className="flex items-center gap-2 rounded-xl shadow-lg p-2 bg-[rgb(var(--color-background-secondary))]">
+          <div className="mt-6 flex justify-center">
+            <div className="flex items-center gap-1 rounded-xl shadow-lg p-2 bg-[rgb(var(--color-background-secondary))]">
               {/* Previous Button */}
               <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className={`p-2 rounded-lg transition-all duration-200 flex items-center gap-1 ${
+                className={`p-2 rounded-lg transition-all duration-200 flex items-center gap-1 touch-manipulation ${
                   currentPage === 1
                     ? 'text-gray-400 cursor-not-allowed'
                     : 'hover:text-blue-600 hover:bg-blue-50 text-[rgb(var(--color-text))]'
                 }`}
               >
                 <HiOutlineChevronLeft className="text-lg" />
-                <span className="hidden sm:inline">السابق</span>
+                <span className="text-sm">{t('menu_previous')}</span>
               </button>
 
               {/* Page Numbers */}
@@ -327,7 +326,7 @@ export default function Menu() {
                     key={index}
                     onClick={() => typeof page === 'number' && setCurrentPage(page)}
                     disabled={page === '...'}
-                    className={`px-3 py-2 rounded-lg transition-all duration-200 ${
+                    className={`px-2 py-1 rounded-lg transition-all duration-200 text-sm touch-manipulation ${
                       page === currentPage
                         ? 'bg-blue-600 text-white shadow-lg'
                         : page === '...'
@@ -344,13 +343,13 @@ export default function Menu() {
               <button
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
-                className={`p-2 rounded-lg transition-all duration-200 flex items-center gap-1 ${
+                className={`p-2 rounded-lg transition-all duration-200 flex items-center gap-1 touch-manipulation ${
                   currentPage === totalPages
                     ? 'text-gray-400 cursor-not-allowed'
                     : 'hover:text-blue-600 hover:bg-blue-50 text-[rgb(var(--color-text))]'
                 }`}
               >
-                <span className="hidden sm:inline">التالي</span>
+                <span className="text-sm">{t('menu_next')}</span>
                 <HiOutlineChevronRight className="text-lg" />
               </button>
             </div>
