@@ -28,6 +28,19 @@ export function CartProvider({ children }) {
     });
   };
 
+  const updateQuantity = (id, quantity) => {
+    setCart((prev) => {
+      if (quantity <= 0) {
+        toast('تم حذف المنتج من السلة', { icon: '🗑️' });
+        return prev.filter((item) => item.id !== id);
+      }
+      toast.success('تم تحديث الكمية');
+      return prev.map((item) =>
+        item.id === id ? { ...item, quantity } : item
+      );
+    });
+  };
+
   const removeFromCart = (id) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
     toast('تم حذف المنتج من السلة', { icon: '🗑️' });
@@ -39,7 +52,7 @@ export function CartProvider({ children }) {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, updateQuantity }}>
       {children}
     </CartContext.Provider>
   );
