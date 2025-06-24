@@ -5,7 +5,7 @@ export const products = [
       name: "Strawberry Ice Cream",
       description: "Delicious and refreshing",
       price: 20,
-      image: "https://i.imgur.com/ZKd7bMZ.jpg",
+      image: "/pic/product1.jpg",
       category: "Ice Cream"
     },
     {
@@ -13,7 +13,7 @@ export const products = [
       name: "Chocolate Cone",
       description: "Classic chocolate flavor",
       price: 25,
-      image: "https://i.imgur.com/Rq2A4yR.jpg",
+      image: "/pic/product1.jpg",
       category: "Ice Cream"
     },
     {
@@ -21,7 +21,7 @@ export const products = [
       name: "Mango Sorbet",
       description: "Tropical and light",
       price: 22,
-      image: "https://i.imgur.com/9D2qQdA.jpg",
+      image: "/pic/product1.jpg",
       category: "Ice Cream"
     },
   
@@ -31,7 +31,7 @@ export const products = [
       name: "Cold Water Bottle",
       description: "500ml fresh cold water",
       price: 10,
-      image: "https://i.imgur.com/f3jVYcB.jpg",
+      image: "/pic/product1.jpg",
       category: "Drinks"
     },
     {
@@ -39,7 +39,7 @@ export const products = [
       name: "Orange Juice",
       description: "Freshly squeezed",
       price: 15,
-      image: "https://i.imgur.com/XPnWhbY.jpg",
+      image: "/pic/product1.jpg",
       category: "Drinks"
     },
     {
@@ -47,7 +47,7 @@ export const products = [
       name: "Soda Can",
       description: "Cold and fizzy",
       price: 12,
-      image: "https://i.imgur.com/xzMWYyU.jpg",
+      image: "/pic/product1.jpg",
       category: "Drinks"
     },
   
@@ -57,7 +57,7 @@ export const products = [
       name: "Potato Chips",
       description: "Salty and crispy",
       price: 10,
-      image: "https://i.imgur.com/ktV5CLN.jpg",
+      image: "/pic/product1.jpg",
       category: "Snacks"
     },
     {
@@ -65,7 +65,7 @@ export const products = [
       name: "Popcorn Cup",
       description: "Buttery goodness",
       price: 12,
-      image: "https://i.imgur.com/XTKnEFr.jpg",
+      image: "/pic/product1.jpg",
       category: "Snacks"
     },
     {
@@ -73,7 +73,7 @@ export const products = [
       name: "Mini Sandwich",
       description: "Tuna and lettuce",
       price: 18,
-      image: "https://i.imgur.com/vC1VYzK.jpg",
+      image: "/pic/product1.jpg",
       category: "Snacks"
     },
   
@@ -83,7 +83,7 @@ export const products = [
       name: "Fruit Salad Cup",
       description: "Mixed seasonal fruits",
       price: 17,
-      image: "https://i.imgur.com/XZ7Wbb7.jpg",
+      image: "/pic/product1.jpg",
       category: "Fruits"
     },
     {
@@ -91,7 +91,7 @@ export const products = [
       name: "Watermelon Slice",
       description: "Cold and juicy",
       price: 8,
-      image: "https://i.imgur.com/vyBZBa5.jpg",
+      image: "/pic/product1.jpg",
       category: "Fruits"
     },
   
@@ -101,7 +101,7 @@ export const products = [
       name: "Sunglasses",
       description: "UV protection",
       price: 50,
-      image: "https://i.imgur.com/0MGyQPi.jpg",
+      image: "/pic/product1.jpg",
       category: "Beach Accessories"
     },
     {
@@ -109,7 +109,7 @@ export const products = [
       name: "Beach Hat",
       description: "Protects from sun",
       price: 35,
-      image: "https://i.imgur.com/2g9V5QU.jpg",
+      image: "/pic/product1.jpg",
       category: "Beach Accessories"
     },
     {
@@ -117,7 +117,7 @@ export const products = [
       name: "Inflatable Ring",
       description: "Fun for kids",
       price: 40,
-      image: "https://i.imgur.com/YPm7fQl.jpg",
+      image: "/pic/product1.jpg",
       category: "Beach Accessories"
     }
   ];
