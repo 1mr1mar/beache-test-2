@@ -1,8 +1,7 @@
-// src/pages/Menu.jsx
-import { useState, useMemo } from 'react';
-import { products, categories } from '../data/products';
+import { useState, useMemo, useEffect } from 'react';
 import ProductCard from '../components/UI/Card';
 import { useLanguage } from '../Context/LanguageContext';
+import { supabase } from '../supabaseClient';
 import { 
   HiOutlineFilter, 
   HiOutlineSortAscending, 
@@ -18,6 +17,8 @@ import {
 
 export default function Menu() {
   const { t } = useLanguage();
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [sortBy, setSortBy] = useState('name');
@@ -26,12 +27,67 @@ export default function Menu() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const productsPerPage = 6;
+
+  // Fetch products and categories from Supabase
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch products with category information
+        const { data: productsData, error: productsError } = await supabase
+          .from('products')
+          .select(`
+            id,
+            name,
+            description,
+            price,
+            image_url,
+            category_id,
+            available,
+            categories (
+              id,
+              name
+            )
+          `)
+          .eq('available', true); // Only fetch available products
+        
+        if (productsError) {
+          console.error('Error fetching products:', productsError);
+        } else {
+          setProducts(productsData || []);
+        }
+
+        // Fetch categories separately
+        const { data: categoriesData, error: categoriesError } = await supabase
+          .from('categories')
+          .select('id, name');
+        
+        if (categoriesError) {
+          console.error('Error fetching categories:', categoriesError);
+          // Fallback: extract unique categories from products
+          const uniqueCategories = [...new Set(productsData?.map(p => p.categories?.name).filter(Boolean) || [])];
+          setCategories(['All', ...uniqueCategories]);
+        } else {
+          const categoryNames = categoriesData?.map(cat => cat.name) || [];
+          setCategories(['All', ...categoryNames]);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Filter and sort products
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = products.filter((product) => {
-      const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+      const matchesCategory = selectedCategory === 'All' || product.categories?.name === selectedCategory;
       const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            product.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -53,8 +109,8 @@ export default function Menu() {
           bValue = b.name.toLowerCase();
           break;
         case 'category':
-          aValue = a.category.toLowerCase();
-          bValue = b.category.toLowerCase();
+          aValue = a.categories?.name?.toLowerCase() || '';
+          bValue = b.categories?.name?.toLowerCase() || '';
           break;
         default:
           aValue = a.name.toLowerCase();
@@ -69,7 +125,7 @@ export default function Menu() {
     });
 
     return filtered;
-  }, [selectedCategory, priceRange, sortBy, sortOrder, searchQuery]);
+  }, [products, selectedCategory, priceRange, sortBy, sortOrder, searchQuery]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredAndSortedProducts.length / productsPerPage);
@@ -281,19 +337,29 @@ export default function Menu() {
           </p>
         </div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-sm text-[rgb(var(--color-text-secondary))]">{t('menu_loading') || 'Loading products...'}</p>
+          </div>
+        )}
+
         {/* Products Grid - 2 columns for mobile */}
-        <div className={`grid gap-4 ${
-          viewMode === 'grid' 
-            ? 'grid-cols-2' 
-            : 'grid-cols-1'
-        }`}>
-          {currentProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {!loading && (
+          <div className={`grid gap-4 ${
+            viewMode === 'grid' 
+              ? 'grid-cols-2' 
+              : 'grid-cols-1'
+          }`}>
+            {currentProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
 
         {/* No Results */}
-        {filteredAndSortedProducts.length === 0 && (
+        {!loading && filteredAndSortedProducts.length === 0 && (
           <div className="text-center py-12">
             <div className="text-gray-400 text-4xl mb-4">🔍</div>
             <h3 className="text-lg font-semibold mb-2 text-[rgb(var(--color-text))]">{t('menu_no_results')}</h3>

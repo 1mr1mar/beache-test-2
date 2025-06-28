@@ -13,7 +13,7 @@ export default function ProductCard({ product }) {
       {/* Image Container */}
       <div className="relative overflow-hidden">
         <img 
-          src={product.image} 
+          src={product.image_url} 
           alt={product.name} 
           className="w-full h-32 object-cover group-hover:scale-110 transition-transform duration-300" 
           loading="lazy" 
@@ -31,7 +31,7 @@ export default function ProductCard({ product }) {
         
         {/* Category Badge */}
         <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white px-1.5 py-0.5 rounded text-xs font-medium">
-          {product.category}
+          {product.categories?.name || 'Unknown'}
         </div>
       </div>
 
