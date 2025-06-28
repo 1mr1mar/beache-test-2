@@ -34,9 +34,11 @@ export default function Menu() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('🔄 Starting to fetch data from Supabase...');
         setLoading(true);
         
         // Fetch products with category information
+        console.log('📦 Fetching products...');
         const { data: productsData, error: productsError } = await supabase
           .from('products')
           .select(`
@@ -54,30 +56,42 @@ export default function Menu() {
           `)
           .eq('available', true); // Only fetch available products
         
+        console.log('📦 Products query result:', { productsData, productsError });
+        
         if (productsError) {
-          console.error('Error fetching products:', productsError);
+          console.error('❌ Error fetching products:', productsError);
         } else {
+          console.log('✅ Products fetched successfully:', productsData);
+          console.log('📊 Number of products:', productsData?.length || 0);
           setProducts(productsData || []);
         }
 
         // Fetch categories separately
+        console.log('🏷️ Fetching categories...');
         const { data: categoriesData, error: categoriesError } = await supabase
           .from('categories')
           .select('id, name');
         
+        console.log('🏷️ Categories query result:', { categoriesData, categoriesError });
+        
         if (categoriesError) {
-          console.error('Error fetching categories:', categoriesError);
+          console.error('❌ Error fetching categories:', categoriesError);
           // Fallback: extract unique categories from products
           const uniqueCategories = [...new Set(productsData?.map(p => p.categories?.name).filter(Boolean) || [])];
+          console.log('🔄 Using fallback categories from products:', uniqueCategories);
           setCategories(['All', ...uniqueCategories]);
         } else {
           const categoryNames = categoriesData?.map(cat => cat.name) || [];
+          console.log('✅ Categories fetched successfully:', categoryNames);
           setCategories(['All', ...categoryNames]);
         }
+        
+        console.log('🎯 Final state - Products:', productsData?.length || 0, 'Categories:', categoriesData?.length || 0);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('💥 Unexpected error in fetchData:', error);
       } finally {
         setLoading(false);
+        console.log('🏁 Data fetching completed');
       }
     };
 
@@ -86,14 +100,31 @@ export default function Menu() {
 
   // Filter and sort products
   const filteredAndSortedProducts = useMemo(() => {
+    console.log('🔍 Starting filtering process...');
+    console.log('📦 Raw products:', products);
+    console.log('🎯 Selected category:', selectedCategory);
+    console.log('💰 Price range:', priceRange);
+    console.log('🔍 Search query:', searchQuery);
+    
     let filtered = products.filter((product) => {
       const matchesCategory = selectedCategory === 'All' || product.categories?.name === selectedCategory;
       const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            product.description.toLowerCase().includes(searchQuery.toLowerCase());
       
+      console.log(`📋 Product "${product.name}":`, {
+        matchesCategory,
+        matchesPrice,
+        matchesSearch,
+        category: product.categories?.name,
+        price: product.price,
+        searchMatch: product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      });
+      
       return matchesCategory && matchesPrice && matchesSearch;
     });
+
+    console.log('✅ Filtered products:', filtered);
 
     // Sort products
     filtered.sort((a, b) => {
@@ -124,6 +155,7 @@ export default function Menu() {
       }
     });
 
+    console.log('🎯 Final filtered and sorted products:', filtered);
     return filtered;
   }, [products, selectedCategory, priceRange, sortBy, sortOrder, searchQuery]);
 
@@ -132,6 +164,17 @@ export default function Menu() {
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const currentProducts = filteredAndSortedProducts.slice(startIndex, endIndex);
+
+  console.log('📄 Pagination info:', {
+    totalProducts: filteredAndSortedProducts.length,
+    productsPerPage,
+    totalPages,
+    currentPage,
+    startIndex,
+    endIndex,
+    currentProductsCount: currentProducts.length,
+    currentProducts: currentProducts
+  });
 
   // Reset to first page when filters change
   const resetPagination = () => {
@@ -352,6 +395,7 @@ export default function Menu() {
               ? 'grid-cols-2' 
               : 'grid-cols-1'
           }`}>
+            {console.log('🎨 Rendering products:', currentProducts)}
             {currentProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
